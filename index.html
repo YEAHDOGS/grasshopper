@@ -74,8 +74,6 @@ h2 em{font-style:normal;color:var(--grn)}
 footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
 .badge{display:block;width:200px;max-width:70%}
 .badge img{width:100%;height:auto;display:block}
-.fine{margin-top:22px;font-size:12px;color:var(--dim);line-height:1.8}
-.fine a{color:var(--grn);text-decoration:none}
 /* scroll cue */
 .cue{position:absolute;bottom:26px;right:26px;color:var(--dim);font-size:11px;letter-spacing:.28em;text-transform:uppercase;writing-mode:vertical-rl;animation:bob 2.2s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
@@ -112,7 +110,7 @@ footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
       <div class="mode map rv d2">
         <p class="mlabel">Mode 02 — Map</p>
         <h3>Your house, as a map.</h3>
-        <p>Power it on at home. It joins your Wi-Fi, learns every device on the network, and drops <b>red dots</b> where signals live. Swap floors. Edit the plan.</p>
+        <p>Power it on at home. It joins your Wi-Fi, learns every device on the network, and drops <b>red dots</b> on its own screen. Swap floors. Edit the plan.</p>
       </div>
     </div>
   </div>
@@ -138,9 +136,9 @@ footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
   <div class="wrap">
     <p class="kicker rv">03 &middot; Consumer-first</p>
     <h2 class="rv d1">Built for humans,<br><em>not operatives.</em></h2>
-    <p class="sub rv d2">No engineering degree. No laptop. No cryptic waterfall graphs. Grasshopper speaks <b>plain English</b> and points at the wall.</p>
+    <p class="sub rv d2">No app. No phone. No engineering degree. Grasshopper speaks <b>plain English</b> on its own screen.</p>
     <div class="steps">
-      <div class="step rv d1"><div class="n">1</div><div><h3>Power on</h3><p>Its own battery. Phone optional.</p></div></div>
+      <div class="step rv d1"><div class="n">1</div><div><h3>Push the button</h3><p>Its own screen. Its own battery. Nothing to install.</p></div></div>
       <div class="step rv d2"><div class="n">2</div><div><h3>Sweep or map</h3><p>Wave it like a metal detector. Or watch your house become a map.</p></div></div>
       <div class="step rv d3"><div class="n">3</div><div><h3>Read the verdict</h3><p>Plain English. Red dots. No engineering degree.</p></div></div>
     </div>
@@ -155,8 +153,8 @@ footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
 <section class="panel" aria-label="Hardware">
   <div class="wrap">
     <p class="kicker rv">04 &middot; Hardware</p>
-    <h2 class="rv d1">Its own battery.<br>Phone <em>optional.</em></h2>
-    <p class="sub rv d2">Runs solo for hours. Snap it onto your phone and it sips phone power instead.</p>
+    <h2 class="rv d1">Its own screen.<br>Its own <em>battery.</em></h2>
+    <p class="sub rv d2">No app. No phone needed. Plug into your phone only to charge.</p>
     <svg class="rv d2" viewBox="0 0 340 330" width="100%" role="img" aria-label="Block diagram: antennas to RF front-end to processor to battery to your phone (optional)" style="margin-top:22px">
       <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#39ff6e" stroke-width="1.5"/></marker></defs>
       <g font-family="ui-monospace,Menlo,Consolas,monospace" text-anchor="middle">
@@ -177,11 +175,11 @@ footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
         <text x="170" y="228" fill="#9db3a0" font-size="10">1,500 mAh · USB-C charging</text>
         <line x1="170" y1="238" x2="170" y2="254" stroke="#39ff6e" stroke-width="1.5" marker-end="url(#ah)"/>
         <rect x="70" y="254" width="200" height="52" rx="10" fill="rgba(57,255,110,.07)" stroke="#39ff6e" stroke-width="1.5"/>
-        <text x="170" y="274" fill="#e8f5e9" font-size="13" font-weight="bold">YOUR PHONE</text>
-        <text x="170" y="290" fill="#9db3a0" font-size="10">app · display · optional</text>
+        <text x="170" y="274" fill="#e8f5e9" font-size="13" font-weight="bold">DISPLAY</text>
+        <text x="170" y="290" fill="#9db3a0" font-size="10">on-device screen · no app</text>
       </g>
     </svg>
-    <p class="rv d3" style="margin-top:20px"><span class="pill">1,500 mAh inside · ~6 hr sweep · USB-C</span></p>
+    <p class="rv d3" style="margin-top:20px"><span class="pill">1,500 mAh inside · ~5 hr sweep · USB-C</span></p>
     <p class="rv d3" style="margin-top:10px"><span class="pill">Beeps + vibrates · sweep mode</span></p>
     <p class="rv d3" style="margin-top:14px"><a class="cta" href="https://github.com/YEAHDOGS/grasshopper/blob/master/docs/HARDWARE.md">Parts list &amp; diagrams</a></p>
   </div>
@@ -190,18 +188,13 @@ footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
 <section class="panel" aria-label="Pricing">
   <div class="wrap">
     <p class="kicker rv">05 &middot; The product</p>
-    <h2 class="rv d1">Privacy<br><em>you can hold.</em></h2>
-    <p class="sub rv d2">The <b>consumer bug sweeper.</b></p>
-    <div class="tiers">
-      <div class="tier rv d1">
+    <h2 class="rv d1">One model.<br><em>$299.</em></h2>
+    <p class="sub rv d2">No tiers. No options. Everything in the box.</p>
+    <div class="tiers" style="grid-template-columns:1fr">
+      <div class="tier pro rv d1">
         <h3>Grasshopper</h3>
         <div class="price">$299</div>
-        <ul><li>Wi-Fi / BT / BLE sweep</li><li>Sub-GHz: 433 / 915 MHz</li><li>Hot/cold proximity meter</li><li>Free signature updates</li></ul>
-      </div>
-      <div class="tier pro rv d2">
-        <h3>Grasshopper Pro</h3>
-        <div class="price">$399</div>
-        <ul><li>Everything in Grasshopper</li><li>Full cellular band sweep</li><li>LoRa 868 MHz + drones</li><li>Evidence export for reports</li></ul>
+        <ul><li>Sweep + Map modes</li><li>Full band sweep, sub-GHz to 5 GHz</li><li>Own screen — no app, no phone</li><li>Beeps + vibrates</li><li>Free signature updates forever</li></ul>
       </div>
     </div>
     <p class="note rv d3">In development. First run 2027 (projection).</p>
@@ -211,7 +204,6 @@ footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
 <footer class="panel" aria-label="Footer">
   <div class="wrap">
     <a class="badge" href="https://wearedogs.net" aria-label="Made by DOGS"><img src="assets/made-by-dogs.webp" alt="Made by DOGS"></a>
-    <p class="fine">GRASSHOPPER.DOGS.RED<br>Bug sweeping by <a href="https://wearedogs.net">DOGS</a>.<br>First run 2027.</p>
   </div>
 </footer>
 

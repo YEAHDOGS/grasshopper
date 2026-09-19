@@ -6,8 +6,8 @@ and watch every signal drop in as a red dot. Privacy you can hold.
 
 - 🌐 Landing page: https://grasshopper.dogs.red (mirror: https://yeahdogs.github.io/grasshopper/)
 - 🔧 Hardware proposal: [docs/HARDWARE.md](docs/HARDWARE.md)
-- 💰 Target: **$299** base / **$399** Pro
-- 🔌 Battery-powered handheld (1,500 mAh, ~6 hr sweep) — phone optional via BLE/USB-C
+- 💰 One model: **$299** — no tiers, no options
+- 🖥️ Own screen + own battery (1,500 mAh, ~5 hr sweep) — no app, no phone; USB-C charging, phone works as a charger
 
 ## Repo layout
 

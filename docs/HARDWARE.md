@@ -6,10 +6,10 @@
 
 ## Concept
 
-Grasshopper is a **battery-powered handheld sweeper**. It runs solo for
-hours on its own cell — the phone is an optional display, not a requirement.
-Snap it onto your phone over USB-C and it can sip phone power instead of its
-own battery, running indefinitely.
+Grasshopper is a **standalone handheld sweeper**: its own screen, its own
+battery, one button. Take it anywhere in the world, push the button, scan
+for spyware. There is no app and no phone pairing — the phone is only ever
+a charger. One model, everything in the box.
 
 ## Two modes
 
@@ -24,11 +24,12 @@ The directional whip gives bearing. No screen, no graphs, no waterfall.
 
 Grasshopper joins the home Wi-Fi as a client and inventories the network:
 ARP/DHCP sweep, mDNS/Bonjour + UPnP names (so "Living Room TV" labels
-itself), BLE advertisements, and per-device RSSI. The companion app holds an
-editable floor plan — swap floors, drag rooms, rename them — and plots each
-device as a dot positioned by RSSI multilateration (room-level accuracy),
-pulsing red when a device is unknown or new. Walk-the-house calibration:
-carry Grasshopper room to room once and the dots sharpen.
+itself), BLE advertisements, and per-device RSSI. Everything renders on the
+on-device screen: an editable floor plan — swap floors, drag rooms, rename
+them — with each device plotted as a dot positioned by RSSI multilateration
+(room-level accuracy), pulsing red when a device is unknown or new.
+Walk-the-house calibration: carry Grasshopper room to room once and the
+dots sharpen. No app, no phone — the map lives on the device.
 
 **Honest limits:** Wi-Fi alone cannot auto-draw an architect-accurate floor
 plan — the plan starts as your quick sketch (or a room list) and Grasshopper
@@ -60,23 +61,19 @@ docs/DETECTION-MATRIX.md.
                     ┌─────────────────┴──────────────────┐
                     │                                    │
          ┌──────────▼──────────┐              ┌──────────▼──────────┐
-         │  1,500 mAh Li-Po    │              │    YOUR PHONE       │
-         │  USB-C charging     │              │  app · display      │
-         │  ~6 hr sweep        │              │  optional: BLE or   │
-         └─────────────────────┘              │  USB-C (power+data) │
-                                              └─────────────────────┘
+         │  1,500 mAh Li-Po    │              │  2.0" TFT DISPLAY   │
+         │  USB-C charging     │              │  240×320 · on-device│
+         │  ~5 hr sweep        │              │  UI · no app needed │
+         └─────────────────────┘              └─────────────────────┘
 ```
 
 ## Power
 
-- **Primary:** internal 1,500 mAh Li-Po — ~6 hours of continuous sweeping.
-- **Charging:** USB-C, 5 V in. Full charge in ~90 minutes.
-- **Phone power (optional):** snap it onto your phone over USB-C and it runs
-  off phone power instead of its own cell — indefinitely. The phone can also
-  top up the internal cell while attached.
-- **Phone link (optional):** BLE for the app display when wireless, or USB-C
-  for data + power when docked. The dongle classifies on-device; the phone is
-  just a screen.
+- **Primary:** internal 1,500 mAh Li-Po — ~5 hours of continuous sweeping
+  with the screen on.
+- **Charging:** USB-C, 5 V in, from any source — wall, laptop, or your
+  phone's reverse-charge. The phone is only ever a charger: no app, no
+  pairing, no data leaves the device. Full charge in ~90 minutes.
 - **Power budget (typical):**
 
   | Block            | Typical | Peak   |
@@ -84,15 +81,11 @@ docs/DETECTION-MATRIX.md.
   | ESP32-S3 + DSP   | 160 mA  | 240 mA |
   | SDR front-end    | 280 mA  | 350 mA |
   | Sub-GHz (RX)     | 20 mA   | 120 mA |
+  | 2.0" TFT display | 90 mA   | 150 mA |
   | Regulators/misc  | 40 mA   | 60 mA  |
-  | **Total @ 5 V**  | **~1 W**| ~2.5 W |
+  | **Total @ 5 V**  | **~1.3 W** | ~3 W |
 
-  A 10-minute full sweep ≈ **under 3% of the internal cell.**
-- **OS support:** Android first (BLE, no drivers). iPhone via BLE; USB-C
-  (15 and later) for docked power + data. The dongle streams classified
-  detections, not raw I/Q, so even mid-range phones keep up.
-- **Mount:** spring phone-clip molded into the enclosure; doubles as a
-  kickstand for tabletop sweeps.
+  A 10-minute full sweep ≈ **under 4% of the internal cell.**
 
 ## Proposed BOM (Rev A)
 
@@ -109,29 +102,30 @@ docs/DETECTION-MATRIX.md.
 | 9 | Maxim MAX17048 | Fuel gauge | Digi-Key / Mouser |
 | 10 | USB-C receptacle, mid-mount | Charging + optional phone dock | LCSC / GCT via Mouser |
 | 11 | 4-layer PCB, ENIG | Main board | JLCPCB / PCBWay |
-| 12 | PC/ABS clamshell + phone clip | Enclosure | Injection mold (TBD) |
+| 12 | PC/ABS clamshell | Enclosure | Injection mold (TBD) |
 | 13 | 15 cm USB-C extension cable | Cased-phone accessory | Off-the-shelf |
 | 14 | Piezo buzzer, 3 V | Sweep-mode audio feedback | LCSC / CUI via Digi-Key |
 | 15 | ERM coin vibration motor, 3 V | Sweep-mode haptic feedback | LCSC / Jinlong |
+| 16 | 2.0" TFT LCD, 240×320 SPI (ILI9341-class) | On-device display — no app | LCSC / BuyDisplay |
+| 17 | 5-way nav switch + 2 tactile buttons | UI input: sweep, map, select | LCSC / CUI via Digi-Key |
+| 18 | 5 GHz Wi-Fi scan radio module | Dedicated 5 GHz sweep | Espressif / LCSC |
+| 19 | Extended-band SDR module | 1.8–2.7 GHz cellular coverage | Module vendor (TBD) |
 
-**Cost envelope:** RF + silicon ≈ $38–55 at 1k units; battery + power +
-haptics ≈ $7–10; enclosure + cable ≈ $9–14; assembly/test ≈ $12–18. Total
-COGS target **$75–95**, leaving healthy margin at the $299 / $399 retail
-targets.
+**Cost envelope:** RF + silicon ≈ $55–80 at 1k units; battery + power +
+haptics ≈ $7–10; display + buttons ≈ $7–10; enclosure + cable ≈ $9–14;
+assembly/test ≈ $12–18. Total COGS target **$100–130**, leaving healthy
+margin at the single $299 retail price. No tiers, no options — one model,
+everything in the box.
 
-**Pro tier delta:** adds a 5 GHz Wi-Fi radio module (dedicated scan radio)
-and extended-band SDR coverage for 2.1 / 2.6 / 3.5 GHz cellular — the two
-blocks that push the base BOM past the $299 envelope.
+## Band coverage (single model)
 
-## Band coverage
-
-| Band | Base | Pro | Notes |
-|------|------|-----|-------|
-| 500 kHz – 1.75 GHz (SDR) | ✓ | ✓ | VHF/UHF bugs, DECT, 433/868/915 ISM |
-| 2.4 GHz Wi-Fi / BLE | ✓ | ✓ | ESP32-S3 monitor mode |
-| 5 GHz Wi-Fi | – | ✓ | Dedicated radio module |
-| 1.8 – 2.7 GHz cellular | – | ✓ | Extended SDR module |
-| 3.5 GHz 5G | – | roadmap | Antenna + tuner rev |
+| Band | Covered | Notes |
+|------|---------|-------|
+| 500 kHz – 1.75 GHz (SDR) | ✓ | VHF/UHF bugs, DECT, 433/868/915 ISM |
+| 2.4 GHz Wi-Fi / BLE | ✓ | ESP32-S3 monitor mode |
+| 5 GHz Wi-Fi | ✓ | Dedicated scan radio |
+| 1.8 – 2.7 GHz cellular | ✓ | Extended SDR module |
+| 3.5 GHz 5G | roadmap | Antenna + tuner rev |
 
 ## Signature roadmap (devices you haven't thought of yet)
 
