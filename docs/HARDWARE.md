@@ -6,9 +6,10 @@
 
 ## Concept
 
-Grasshopper is a **phone-powered USB-C dongle**, not a standalone gadget.
-The phone provides the screen, the compute assist, the battery, and the
-network (for signature updates). The dongle is pure RF front-end + DSP.
+Grasshopper is a **battery-powered handheld sweeper**. It runs solo for
+hours on its own cell — the phone is an optional display, not a requirement.
+Snap it onto your phone over USB-C and it can sip phone power instead of its
+own battery, running indefinitely.
 
 ```
                          ┌──────────────────────────┐
@@ -27,26 +28,27 @@ network (for signature updates). The dongle is pure RF front-end + DSP.
                          │   ESP32-S3 (DSP/host)    │
                          │ signal detect + classify │
                          └────────────┬─────────────┘
-                                      │ USB 2.0
-                         ┌────────────▼─────────────┐
-                         │  USB-C (male plug)       │
-                         │  OTG: 5 V in, data out   │
-                         └────────────┬─────────────┘
                                       │
-                         ┌────────────▼─────────────┐
-                         │       YOUR PHONE         │
-                         │ app · display · battery  │
-                         └──────────────────────────┘
+                    ┌─────────────────┴──────────────────┐
+                    │                                    │
+         ┌──────────▼──────────┐              ┌──────────▼──────────┐
+         │  1,500 mAh Li-Po    │              │    YOUR PHONE       │
+         │  USB-C charging     │              │  app · display      │
+         │  ~6 hr sweep        │              │  optional: BLE or   │
+         └─────────────────────┘              │  USB-C (power+data) │
+                                              └─────────────────────┘
 ```
 
-## Phone attach & power
+## Power
 
-- **Connector:** USB-C male plug on a short rigid neck; folding flat against
-  the dongle for pocket carry. A 15 cm USB-C extension cable ships in the box
-  for phones in bulky cases.
-- **Power:** phone acts as USB OTG host, supplying 5 V. Onboard buck
-  (3.3 V rail) + supercapacitor to ride through brownouts when the RF
-  front-end peaks.
+- **Primary:** internal 1,500 mAh Li-Po — ~6 hours of continuous sweeping.
+- **Charging:** USB-C, 5 V in. Full charge in ~90 minutes.
+- **Phone power (optional):** snap it onto your phone over USB-C and it runs
+  off phone power instead of its own cell — indefinitely. The phone can also
+  top up the internal cell while attached.
+- **Phone link (optional):** BLE for the app display when wireless, or USB-C
+  for data + power when docked. The dongle classifies on-device; the phone is
+  just a screen.
 - **Power budget (typical):**
 
   | Block            | Typical | Peak   |
@@ -57,11 +59,10 @@ network (for signature updates). The dongle is pure RF front-end + DSP.
   | Regulators/misc  | 40 mA   | 60 mA  |
   | **Total @ 5 V**  | **~1 W**| ~2.5 W |
 
-  A 10-minute full sweep ≈ **under 5% of a 4,000 mAh phone battery.**
-- **OS support:** Android first (USB host API, no drivers — standard USB
-  CDC). iPhone via USB-C (15 and later). The app owns all DSP visualization;
-  the dongle streams classified detections, not raw I/Q, so even mid-range
-  phones keep up.
+  A 10-minute full sweep ≈ **under 3% of the internal cell.**
+- **OS support:** Android first (BLE, no drivers). iPhone via BLE; USB-C
+  (15 and later) for docked power + data. The dongle streams classified
+  detections, not raw I/Q, so even mid-range phones keep up.
 - **Mount:** spring phone-clip molded into the enclosure; doubles as a
   kickstand for tabletop sweeps.
 
@@ -75,15 +76,17 @@ network (for signature updates). The dongle is pure RF front-end + DSP.
 | 4 | Multiband whip antenna, 700 MHz–6 GHz | Wideband RX | Taoglas / Molex via Digi-Key |
 | 5 | 2× PCB trace antennas (BLE, sub-GHz) | Dedicated-band RX | PCB fab (JLCPCB) |
 | 6 | TI TPS62162 (or equiv.) buck | 5 V → 3.3 V rail | Digi-Key / Mouser |
-| 7 | 5.5 V supercapacitor, ~1 F | Brownout ride-through | Digi-Key |
-| 8 | USB-C male plug, mid-mount | Phone attach | LCSC / GCT via Mouser |
-| 9 | 4-layer PCB, ENIG | Main board | JLCPCB / PCBWay |
-| 10 | PC/ABS clamshell + phone clip | Enclosure | Injection mold (TBD) |
-| 11 | 15 cm USB-C extension cable | Cased-phone accessory | Off-the-shelf |
+| 7 | 1,500 mAh Li-Po pouch cell | Internal battery, ~6 hr sweep | PKCell / LCSC |
+| 8 | TI BQ24075 | USB-C charge controller | Digi-Key / Mouser |
+| 9 | Maxim MAX17048 | Fuel gauge | Digi-Key / Mouser |
+| 10 | USB-C receptacle, mid-mount | Charging + optional phone dock | LCSC / GCT via Mouser |
+| 11 | 4-layer PCB, ENIG | Main board | JLCPCB / PCBWay |
+| 12 | PC/ABS clamshell + phone clip | Enclosure | Injection mold (TBD) |
+| 13 | 15 cm USB-C extension cable | Cased-phone accessory | Off-the-shelf |
 
-**Cost envelope:** RF + silicon ≈ $38–55 at 1k units; enclosure + cable ≈
-$9–14; assembly/test ≈ $12–18. Total COGS target **$70–90**, leaving healthy
-margin at the $299 / $399 retail targets.
+**Cost envelope:** RF + silicon ≈ $38–55 at 1k units; battery + power ≈
+$6–9; enclosure + cable ≈ $9–14; assembly/test ≈ $12–18. Total COGS target
+**$75–95**, leaving healthy margin at the $299 / $399 retail targets.
 
 **Pro tier delta:** adds a 5 GHz Wi-Fi radio module (dedicated scan radio)
 and extended-band SDR coverage for 2.1 / 2.6 / 3.5 GHz cellular — the two
