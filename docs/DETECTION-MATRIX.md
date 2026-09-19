@@ -13,14 +13,14 @@ Honest accounting of what each mode can and cannot find. Rev A targets.
 ## Map mode finds
 
 - Every device on your Wi-Fi network (ARP/DHCP/mDNS inventory)
+- 5 GHz Wi-Fi devices
 - BLE advertisers in range, plotted by signal strength
 - Rogue APs / evil twins (Wi-Fi frame analysis)
 - New or unknown devices the moment they appear — the red pulse
 
-## Conditional (Pro tier or later signature updates)
+## Conditional (later signature updates)
 
-- Cellular GPS trackers — only while transmitting; needs Pro band coverage
-- 5 GHz Wi-Fi devices — Pro radio
+- Cellular GPS trackers — only while transmitting
 - Zigbee / Z-Wave — already in-band; signatures ship free
 - DECT / baby monitors — 1.9 GHz SDR demod
 - Drones — 2.4/5.8 GHz video-link fingerprints
