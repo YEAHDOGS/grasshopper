@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grasshopper — the consumer bug sweeper | Find hidden cameras, mics &amp; trackers</title>
+<meta name="description" content="Grasshopper is a $299 consumer spectrum analyzer and bug sweeper. Sweep any room for hidden cameras, microphones, and trackers. Privacy you can hold.">
+<style>
+:root{
+  --bg:#070907; --panel:#0c0f0c; --ink:#e8f5e9; --dim:#9db3a0;
+  --grn:#39ff6e; --grn-d:#0e3b1e; --amber:#ffb300; --red:#ff5252;
+  --line:rgba(57,255,110,.16);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+main{scroll-snap-type:y mandatory;height:100svh;overflow-y:auto}
+.panel{min-height:100svh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;padding:88px 24px 72px;position:relative;overflow:hidden}
+.panel::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 0%,rgba(57,255,110,.06),transparent 60%)}
+.wrap{max-width:560px;margin:0 auto;width:100%;position:relative}
+.kicker{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--grn);margin-bottom:18px}
+h1,h2{font-weight:800;letter-spacing:-.02em;line-height:.95}
+h1{font-size:clamp(56px,17vw,120px);color:var(--ink)}
+h1 .dot{color:var(--grn)}
+h2{font-size:clamp(38px,11vw,72px);margin-bottom:16px}
+h2 em{font-style:normal;color:var(--grn)}
+.sub{font-size:17px;line-height:1.55;color:var(--dim);max-width:34ch;margin-top:14px}
+.sub b{color:var(--ink);font-weight:600}
+.cta{display:inline-block;margin-top:28px;padding:15px 30px;border:1px solid var(--grn);color:var(--grn);text-decoration:none;font-weight:700;letter-spacing:.08em;font-size:14px;text-transform:uppercase;border-radius:999px;transition:background .25s,color .25s}
+.cta:active{background:var(--grn);color:#04140a}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+/* waterfall */
+#fall{width:100%;height:220px;display:block;border:1px solid var(--line);border-radius:12px;background:#040604;margin:22px 0 6px}
+.legend{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);letter-spacing:.12em}
+.legend span:nth-child(2){color:var(--amber)}
+/* hit list */
+.hits{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+.hit{border:1px solid var(--line);border-radius:12px;padding:14px;background:rgba(57,255,110,.03)}
+.hit .g{font-size:22px}
+.hit h3{font-size:13px;margin:8px 0 4px;letter-spacing:.02em}
+.hit p{font-size:11.5px;color:var(--dim);line-height:1.45}
+.more{margin-top:18px;font-size:12.5px;color:var(--dim);line-height:1.7}
+.more b{color:var(--amber);font-weight:600}
+.more code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:var(--grn)}
+/* steps */
+.steps{margin-top:24px;display:flex;flex-direction:column;gap:12px}
+.step{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:rgba(57,255,110,.03)}
+.step .n{flex:0 0 34px;height:34px;border-radius:50%;border:1px solid var(--grn);color:var(--grn);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.step h3{font-size:14.5px;margin-bottom:3px}
+.step p{font-size:13px;color:var(--dim);line-height:1.5}
+.readout{margin-top:18px;border:1px solid var(--line);border-radius:12px;background:#040604;padding:14px 16px;font-size:13px;line-height:2}
+.readout .ok{color:var(--grn)}.readout .warn{color:var(--amber)}.readout .bad{color:var(--red)}
+/* pricing */
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+.tier{border:1px solid var(--line);border-radius:14px;padding:18px 14px;background:rgba(57,255,110,.03)}
+.tier.pro{border-color:var(--grn);background:rgba(57,255,110,.07)}
+.tier h3{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.tier.pro h3{color:var(--grn)}
+.price{font-size:40px;font-weight:800;margin:10px 0 8px;letter-spacing:-.02em}
+.tier ul{list-style:none;font-size:12.5px;color:var(--dim);line-height:1.9}
+.tier ul li::before{content:"▸ ";color:var(--grn)}
+.note{margin-top:16px;font-size:12px;color:var(--dim)}
+/* footer */
+footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
+.badge{display:block;width:200px;max-width:70%}
+.badge img{width:100%;height:auto;display:block}
+.fine{margin-top:22px;font-size:12px;color:var(--dim);line-height:1.8}
+.fine a{color:var(--grn);text-decoration:none}
+/* scroll cue */
+.cue{position:absolute;bottom:26px;right:26px;color:var(--dim);font-size:11px;letter-spacing:.28em;text-transform:uppercase;writing-mode:vertical-rl;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){
+  .rv{transition:none;opacity:1;transform:none}
+  .cue{animation:none} html{scroll-behavior:auto}
+}
+@media (min-width:760px){ .wrap{max-width:680px} h1{font-size:120px} }
+</style>
+</head>
+<body>
+<main id="scroller">
+
+<section class="panel" aria-label="Grasshopper hero">
+  <div class="wrap">
+    <p class="kicker rv">Grasshopper &middot; by DOGS</p>
+    <h1 class="rv d1">FIND<br>THE<br>BUGS<span class="dot">.</span></h1>
+    <p class="sub rv d2">A <b>$299 spectrum analyzer for regular people.</b> It snaps onto your phone and runs off its battery — then sweeps any room for hidden cameras, microphones, and trackers.</p>
+    <a class="cta rv d3" href="#talking">See what it finds</a>
+  </div>
+  <span class="cue">scroll</span>
+</section>
+
+<section class="panel" id="talking" aria-label="Every room is talking">
+  <div class="wrap">
+    <p class="kicker rv">01 &middot; The problem</p>
+    <h2 class="rv d1">Every room<br>is <em>talking.</em></h2>
+    <p class="sub rv d2">Wi-Fi. Bluetooth. Cellular. LoRa. Every wireless device screams on its own frequency, whether you invited it or not. <b>Grasshopper hears all of it.</b></p>
+    <canvas id="fall" class="rv d2" width="640" height="220" aria-hidden="true"></canvas>
+    <div class="legend mono rv d3"><span>87 MHz</span><span>▲ LIVE SWEEP (SIM)</span><span>5.8 GHz</span></div>
+  </div>
+</section>
+
+<section class="panel" aria-label="The hit list">
+  <div class="wrap">
+    <p class="kicker rv">02 &middot; The hit list</p>
+    <h2 class="rv d1">If it phones home,<br><em>it's found.</em></h2>
+    <div class="hits">
+      <div class="hit rv d1"><div class="g">📷</div><h3>Hidden Wi-Fi cameras</h3><p>2.4 / 5 GHz video streams, even on "your" network.</p></div>
+      <div class="hit rv d2"><div class="g">🎙️</div><h3>Listening bugs &amp; mics</h3><p>VHF / UHF audio transmitters planted in the room.</p></div>
+      <div class="hit rv d1"><div class="g">📍</div><h3>Bluetooth trackers</h3><p>BLE beacons slipped into bags, cars, coat linings.</p></div>
+      <div class="hit rv d2"><div class="g">📶</div><h3>Cellular / SIM devices</h3><p>4G cameras and GPS trackers with their own data plan.</p></div>
+      <div class="hit rv d1"><div class="g">📡</div><h3>LoRa &amp; sub-GHz sensors</h3><p>433 / 868 / 915 MHz long-range chatter.</p></div>
+      <div class="hit rv d2"><div class="g">🕵️</div><h3>Rogue hotspots &amp; stingrays</h3><p>Fake towers and evil twins harvesting your phone.</p></div>
+    </div>
+    <p class="more rv d3"><b>And the ones you haven't thought of:</b> <code>Zigbee</code> · <code>Z-Wave</code> · <code>DECT</code> cordless · drones · <code>RFID</code> skimmers · IR night-vision · laser mics · smart-home chatter. New signatures ship as free updates — the hit list never stops growing.</p>
+  </div>
+</section>
+
+<section class="panel" aria-label="Built for humans">
+  <div class="wrap">
+    <p class="kicker rv">03 &middot; Consumer-first</p>
+    <h2 class="rv d1">Built for humans,<br><em>not operatives.</em></h2>
+    <p class="sub rv d2">No engineering degree. No laptop. No cryptic waterfall graphs. Grasshopper speaks <b>plain English</b> and points at the wall.</p>
+    <div class="steps">
+      <div class="step rv d1"><div class="n">1</div><div><h3>Snap it on</h3><p>Plug Grasshopper into your phone's USB-C port. It sips power from the phone battery — nothing else to charge, ever.</p></div></div>
+      <div class="step rv d2"><div class="n">2</div><div><h3>Walk the room</h3><p>The hot/cold meter guides you — stronger signal, closer bug. Your phone is the screen.</p></div></div>
+      <div class="step rv d3"><div class="n">3</div><div><h3>Read the verdict</h3><p>"Camera-like device, 2.4 GHz, about 6 feet away." Done.</p></div></div>
+    </div>
+    <div class="readout mono rv d3">
+      <div><span class="ok">✓</span> 43 known devices ignored (your phone, your TV…)</div>
+      <div><span class="warn">▲</span> UNKNOWN 2.4 GHz VIDEO — 6 ft — <span class="warn">CHECK THE SMOKE DETECTOR</span></div>
+      <div><span class="bad">✕</span> BLE tracker following you for 20 min</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" aria-label="Hardware">
+  <div class="wrap">
+    <p class="kicker rv">04 &middot; Hardware</p>
+    <h2 class="rv d1">It lives<br>on <em>your phone.</em></h2>
+    <p class="sub rv d2">Grasshopper is a pocket dongle, not a second gadget. Your phone is the <b>screen</b>, the <b>brain</b>, and the <b>battery</b>.</p>
+    <svg class="rv d2" viewBox="0 0 340 330" width="100%" role="img" aria-label="Block diagram: antennas to RF front-end to processor to USB-C to your phone" style="margin-top:22px">
+      <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#39ff6e" stroke-width="1.5"/></marker></defs>
+      <g font-family="ui-monospace,Menlo,Consolas,monospace" text-anchor="middle">
+        <rect x="70" y="6" width="200" height="44" rx="10" fill="none" stroke="#39ff6e" stroke-width="1.5"/>
+        <text x="170" y="24" fill="#e8f5e9" font-size="13" font-weight="bold">ANTENNAS</text>
+        <text x="170" y="40" fill="#9db3a0" font-size="10">multiband whip + PCB</text>
+        <line x1="170" y1="50" x2="170" y2="66" stroke="#39ff6e" stroke-width="1.5" marker-end="url(#ah)"/>
+        <rect x="70" y="66" width="200" height="52" rx="10" fill="none" stroke="#39ff6e" stroke-width="1.5"/>
+        <text x="170" y="86" fill="#e8f5e9" font-size="13" font-weight="bold">RF FRONT-END</text>
+        <text x="170" y="102" fill="#9db3a0" font-size="10">SDR · sub-GHz · BLE · cellular</text>
+        <line x1="170" y1="118" x2="170" y2="134" stroke="#39ff6e" stroke-width="1.5" marker-end="url(#ah)"/>
+        <rect x="70" y="134" width="200" height="44" rx="10" fill="none" stroke="#39ff6e" stroke-width="1.5"/>
+        <text x="170" y="152" fill="#e8f5e9" font-size="13" font-weight="bold">PROCESSOR</text>
+        <text x="170" y="168" fill="#9db3a0" font-size="10">ESP32-S3 · signal DSP</text>
+        <line x1="170" y1="178" x2="170" y2="194" stroke="#39ff6e" stroke-width="1.5" marker-end="url(#ah)"/>
+        <rect x="70" y="194" width="200" height="44" rx="10" fill="none" stroke="#ffb300" stroke-width="1.5"/>
+        <text x="170" y="212" fill="#e8f5e9" font-size="13" font-weight="bold">USB-C</text>
+        <text x="170" y="228" fill="#9db3a0" font-size="10">OTG power + data</text>
+        <line x1="170" y1="238" x2="170" y2="254" stroke="#ffb300" stroke-width="1.5" marker-end="url(#ah)"/>
+        <rect x="70" y="254" width="200" height="52" rx="10" fill="rgba(57,255,110,.07)" stroke="#39ff6e" stroke-width="1.5"/>
+        <text x="170" y="274" fill="#e8f5e9" font-size="13" font-weight="bold">YOUR PHONE</text>
+        <text x="170" y="290" fill="#9db3a0" font-size="10">app · display · battery</text>
+      </g>
+    </svg>
+    <p class="sub rv d3" style="margin-top:18px">Draws about <b>1&nbsp;W</b> — a full-room sweep costs under <b>5% of your phone battery.</b> Android first; iPhone via USB-C.</p>
+    <p class="rv d3" style="margin-top:14px"><a class="cta" href="https://github.com/YEAHDOGS/grasshopper/blob/master/docs/HARDWARE.md">Parts list &amp; diagrams</a></p>
+  </div>
+</section>
+
+<section class="panel" aria-label="Pricing">
+  <div class="wrap">
+    <p class="kicker rv">05 &middot; The product</p>
+    <h2 class="rv d1">Privacy<br><em>you can hold.</em></h2>
+    <p class="sub rv d2">We're inventing the category: <b>the consumer bug sweeper.</b> Pro-grade RF analysis, priced like a gadget, designed like a toy.</p>
+    <div class="tiers">
+      <div class="tier rv d1">
+        <h3>Grasshopper</h3>
+        <div class="price">$299</div>
+        <ul><li>Wi-Fi / BT / BLE sweep</li><li>Sub-GHz: 433 / 915 MHz</li><li>Hot/cold proximity meter</li><li>Free signature updates</li></ul>
+      </div>
+      <div class="tier pro rv d2">
+        <h3>Grasshopper Pro</h3>
+        <div class="price">$399</div>
+        <ul><li>Everything in Grasshopper</li><li>Full cellular band sweep</li><li>LoRa 868 MHz + drones</li><li>Evidence export for reports</li></ul>
+      </div>
+    </div>
+    <p class="note rv d3">In development — first run targeted 2027 (projection). Specs subject to change as the hardware firms up.</p>
+  </div>
+</section>
+
+<footer class="panel" aria-label="Footer">
+  <div class="wrap">
+    <a class="badge" href="https://wearedogs.net" aria-label="Made by DOGS"><img src="assets/made-by-dogs.webp" alt="Made by DOGS"></a>
+    <p class="fine">GRASSHOPPER.DOGS.RED<br>Consumer spectrum analysis &amp; bug sweeping, by <a href="https://wearedogs.net">DOGS</a>.<br>First run targeted 2027.</p>
+  </div>
+</footer>
+
+</main>
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // reveal on panel entry (observe panels, never clipped children)
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.rv').forEach(function(el){ el.classList.add('in'); });
+      }
+    });
+  },{root:document.getElementById('scroller'),threshold:.25});
+  document.querySelectorAll('.panel').forEach(function(p){ io.observe(p); });
+  document.querySelector('.panel .rv') && document.querySelector('.panel').querySelectorAll('.rv').forEach(function(el){ el.classList.add('in'); });
+
+  // fake live waterfall — pure decoration
+  var cv = document.getElementById('fall'), ctx = cv.getContext('2d');
+  var W = cv.width, H = cv.height, cols = 160, rows = 60;
+  var cw = W/cols, ch = H/rows, grid = [];
+  for(var r=0;r<rows;r++){ grid[r]=[]; for(var c=0;c<cols;c++) grid[r][c]=Math.random()*.25; }
+  var bands = [ {f:.18,w:.05,s:1}, {f:.42,w:.02,s:.7}, {f:.66,w:.08,s:.9}, {f:.85,w:.03,s:.6} ]; // fake emitters
+  function sig(c){ var x=c/cols, v=0; bands.forEach(function(b){ var d=Math.abs(x-b.f); v+= b.s*Math.max(0,1-d/b.w)*(0.75+Math.random()*.5); }); return Math.min(1,v+Math.random()*.12); }
+  function color(v){
+    if(v<.15) return '#031003';
+    if(v<.4)  return '#0e5a26';
+    if(v<.65) return '#39ff6e';
+    if(v<.85) return '#ffb300';
+    return '#ff5252';
+  }
+  function frame(){
+    grid.pop(); var row=[];
+    for(var c=0;c<cols;c++) row[c]=sig(c);
+    grid.unshift(row);
+    ctx.fillStyle='#040604'; ctx.fillRect(0,0,W,H);
+    for(var r=0;r<rows;r++) for(var c2=0;c2<cols;c2++){
+      ctx.fillStyle=color(grid[r][c2]);
+      ctx.fillRect(c2*cw, r*ch, cw+0.5, ch+0.5);
+    }
+  }
+  if(!reduced){ frame(); setInterval(frame, 120); } else { for(var i=0;i<rows;i++) frame(); }
+})();
+</script>
+</body>
+</html>
