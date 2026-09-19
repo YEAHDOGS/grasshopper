@@ -1,7 +1,8 @@
 # Grasshopper
 
-**The consumer spectrum analyzer + bug sweeper.** Find the hidden cameras,
-microphones, and trackers in your life. Privacy you can hold.
+**The consumer bug sweeper.** Two modes: **sweep** it like a metal detector —
+it beeps and vibrates when it finds something — or **map** your whole house
+and watch every signal drop in as a red dot. Privacy you can hold.
 
 - 🌐 Landing page: https://grasshopper.dogs.red (mirror: https://yeahdogs.github.io/grasshopper/)
 - 🔧 Hardware proposal: [docs/HARDWARE.md](docs/HARDWARE.md)
@@ -14,6 +15,8 @@ microphones, and trackers in your life. Privacy you can hold.
 index.html          landing page (zero dependencies, phone-first)
 assets/             made-by-DOGS badge
 docs/HARDWARE.md    block diagram, power architecture, proposed BOM, band plan
+docs/DETECTION-MATRIX.md  what each mode can and cannot find, honestly
+docs/ROADMAP.md          Rev A scope, Pro tier, research items
 ```
 
 ## Status

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Grasshopper — the consumer bug sweeper | Find hidden cameras, mics &amp; trackers</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0f0c'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%2339ff6e' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%2339ff6e'/%3E%3Cline x1='32' y1='32' x2='50' y2='32' stroke='%2339ff6e' stroke-width='4'/%3E%3C/svg%3E">
-<meta name="description" content="Grasshopper — the $299 consumer bug sweeper. Find hidden cameras, microphones, and trackers.">
+<meta name="description" content="Grasshopper — the $299 consumer bug sweeper. Sweep mode beeps like a metal detector. Map mode drops red dots on your floor plan.">
 <style>
 :root{
   --bg:#070907; --panel:#0c0f0c; --ink:#e8f5e9; --dim:#9db3a0;
@@ -33,10 +33,15 @@ h2 em{font-style:normal;color:var(--grn)}
 .rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
 .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
-/* waterfall */
-#fall{width:100%;height:220px;display:block;border:1px solid var(--line);border-radius:12px;background:#040604;margin:22px 0 6px}
-.legend{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);letter-spacing:.12em}
-.legend span:nth-child(2){color:var(--amber)}
+/* modes */
+.modes{margin-top:24px;display:flex;flex-direction:column;gap:10px}
+.mode{border:1px solid var(--line);border-radius:14px;padding:20px 18px;background:rgba(57,255,110,.03)}
+.mode.map{border-color:rgba(255,82,82,.5);background:rgba(255,82,82,.04)}
+.mlabel{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--grn);margin-bottom:10px}
+.mode.map .mlabel{color:var(--red)}
+.mode h3{font-size:22px;margin-bottom:8px;letter-spacing:-.01em}
+.mode p{font-size:14px;color:var(--dim);line-height:1.6;max-width:40ch}
+.mode p b{color:var(--ink);font-weight:600}
 /* hit list */
 .hits{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
 .hit{border:1px solid var(--line);border-radius:12px;padding:14px;background:rgba(57,255,110,.03)}
@@ -94,27 +99,36 @@ footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
   <span class="cue">scroll</span>
 </section>
 
-<section class="panel" id="talking" aria-label="Every room is talking">
+<section class="panel" id="talking" aria-label="Two modes">
   <div class="wrap">
-    <p class="kicker rv">01 &middot; The problem</p>
-    <h2 class="rv d1">Every room<br>is <em>talking.</em></h2>
-    <p class="sub rv d2">Wi-Fi. Bluetooth. Cellular. LoRa. <b>Grasshopper hears all of it.</b></p>
-    <canvas id="fall" class="rv d2" width="640" height="220" aria-hidden="true"></canvas>
-    <div class="legend mono rv d3"><span>87 MHz</span><span>▲ LIVE SWEEP (SIM)</span><span>5.8 GHz</span></div>
+    <p class="kicker rv">01 &middot; Two modes</p>
+    <h2 class="rv d1">Sweep it.<br><em>Or map it.</em></h2>
+    <div class="modes">
+      <div class="mode rv d1">
+        <p class="mlabel">Mode 01 — Sweep</p>
+        <h3>A metal detector for bugs.</h3>
+        <p>Wave it over a person. A bag. A room. It <b>beeps faster</b> as you get closer and <b>vibrates</b> in your hand. No graphs. No waterfall. Hotter / colder.</p>
+      </div>
+      <div class="mode map rv d2">
+        <p class="mlabel">Mode 02 — Map</p>
+        <h3>Your house, as a map.</h3>
+        <p>Power it on at home. It joins your Wi-Fi, learns every device on the network, and drops <b>red dots</b> where signals live. Swap floors. Edit the plan.</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <section class="panel" aria-label="The hit list">
   <div class="wrap">
     <p class="kicker rv">02 &middot; The hit list</p>
-    <h2 class="rv d1">If it phones home,<br><em>it's found.</em></h2>
+    <h2 class="rv d1">If it's talking,<br><em>it's a dot.</em></h2>
     <div class="hits">
       <div class="hit rv d1"><div class="g">📷</div><h3>Wi-Fi cameras</h3><p>Nanny cams, spy cams.</p></div>
       <div class="hit rv d2"><div class="g">🎙️</div><h3>Listening bugs</h3><p>VHF/UHF mics.</p></div>
       <div class="hit rv d1"><div class="g">📍</div><h3>Bluetooth trackers</h3><p>AirTags, Tiles, knockoffs.</p></div>
       <div class="hit rv d2"><div class="g">📶</div><h3>Cellular / SIM devices</h3><p>GPS trackers phoning home.</p></div>
       <div class="hit rv d1"><div class="g">📡</div><h3>LoRa / sub-GHz</h3><p>433/868/915 MHz gear.</p></div>
-      <div class="hit rv d2"><div class="g">🕵️</div><h3>Rogue hotspots</h3><p>Evil twins, stingrays.</p></div>
+      <div class="hit rv d2"><div class="g">🕵️</div><h3>Rogue hotspots</h3><p>Evil-twin Wi-Fi.</p></div>
     </div>
     <p class="more rv d3">New signatures ship free, forever.</p>
   </div>
@@ -126,9 +140,9 @@ footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
     <h2 class="rv d1">Built for humans,<br><em>not operatives.</em></h2>
     <p class="sub rv d2">No engineering degree. No laptop. No cryptic waterfall graphs. Grasshopper speaks <b>plain English</b> and points at the wall.</p>
     <div class="steps">
-      <div class="step rv d1"><div class="n">1</div><div><h3>Power on</h3><p>Its own battery. Or plug into your phone.</p></div></div>
-      <div class="step rv d2"><div class="n">2</div><div><h3>Walk the room</h3><p>Hot/cold meter. Stronger signal, closer bug.</p></div></div>
-      <div class="step rv d3"><div class="n">3</div><div><h3>Read the verdict</h3><p>"Camera-like device, 2.4 GHz, about 6 feet away." Done.</p></div></div>
+      <div class="step rv d1"><div class="n">1</div><div><h3>Power on</h3><p>Its own battery. Phone optional.</p></div></div>
+      <div class="step rv d2"><div class="n">2</div><div><h3>Sweep or map</h3><p>Wave it like a metal detector. Or watch your house become a map.</p></div></div>
+      <div class="step rv d3"><div class="n">3</div><div><h3>Read the verdict</h3><p>Plain English. Red dots. No engineering degree.</p></div></div>
     </div>
     <div class="readout mono rv d3">
       <div><span class="ok">✓</span> 43 known devices ignored (your phone, your TV…)</div>
@@ -168,6 +182,7 @@ footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
       </g>
     </svg>
     <p class="rv d3" style="margin-top:20px"><span class="pill">1,500 mAh inside · ~6 hr sweep · USB-C</span></p>
+    <p class="rv d3" style="margin-top:10px"><span class="pill">Beeps + vibrates · sweep mode</span></p>
     <p class="rv d3" style="margin-top:14px"><a class="cta" href="https://github.com/YEAHDOGS/grasshopper/blob/master/docs/HARDWARE.md">Parts list &amp; diagrams</a></p>
   </div>
 </section>
@@ -215,31 +230,7 @@ footer.panel{min-height:60svh;justify-content:flex-end;padding-bottom:40px}
   document.querySelectorAll('.panel').forEach(function(p){ io.observe(p); });
   document.querySelector('.panel .rv') && document.querySelector('.panel').querySelectorAll('.rv').forEach(function(el){ el.classList.add('in'); });
 
-  // fake live waterfall — pure decoration
-  var cv = document.getElementById('fall'), ctx = cv.getContext('2d');
-  var W = cv.width, H = cv.height, cols = 160, rows = 60;
-  var cw = W/cols, ch = H/rows, grid = [];
-  for(var r=0;r<rows;r++){ grid[r]=[]; for(var c=0;c<cols;c++) grid[r][c]=Math.random()*.25; }
-  var bands = [ {f:.18,w:.05,s:1}, {f:.42,w:.02,s:.7}, {f:.66,w:.08,s:.9}, {f:.85,w:.03,s:.6} ]; // fake emitters
-  function sig(c){ var x=c/cols, v=0; bands.forEach(function(b){ var d=Math.abs(x-b.f); v+= b.s*Math.max(0,1-d/b.w)*(0.75+Math.random()*.5); }); return Math.min(1,v+Math.random()*.12); }
-  function color(v){
-    if(v<.15) return '#031003';
-    if(v<.4)  return '#0e5a26';
-    if(v<.65) return '#39ff6e';
-    if(v<.85) return '#ffb300';
-    return '#ff5252';
-  }
-  function frame(){
-    grid.pop(); var row=[];
-    for(var c=0;c<cols;c++) row[c]=sig(c);
-    grid.unshift(row);
-    ctx.fillStyle='#040604'; ctx.fillRect(0,0,W,H);
-    for(var r=0;r<rows;r++) for(var c2=0;c2<cols;c2++){
-      ctx.fillStyle=color(grid[r][c2]);
-      ctx.fillRect(c2*cw, r*ch, cw+0.5, ch+0.5);
-    }
-  }
-  if(!reduced){ frame(); setInterval(frame, 120); } else { for(var i=0;i<rows;i++) frame(); }
+
 })();
 </script>
 </body>
