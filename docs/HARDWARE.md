@@ -114,7 +114,7 @@ docs/DETECTION-MATRIX.md.
 **Cost envelope:** RF + silicon ≈ $55–80 at 1k units; battery + power +
 haptics ≈ $7–10; display + buttons ≈ $7–10; enclosure + cable ≈ $9–14;
 assembly/test ≈ $12–18. Total COGS target **$100–130**, leaving healthy
-margin at the single $299 retail price. No tiers, no options — one model,
+margin at the single $399 retail price. No tiers, no options — one model,
 everything in the box.
 
 ## Band coverage (single model)
