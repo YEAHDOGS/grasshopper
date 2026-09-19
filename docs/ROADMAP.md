@@ -2,7 +2,7 @@
 
 ## Rev A (first run, 2027 projection)
 
-- One model, $299 — no tiers
+- One model, $399 — no tiers
 - Own screen + battery: push the button, scan anywhere, no app, no phone
 - Sweep mode: beeper + haptic Geiger feedback, directional whip
 - Map mode: Wi-Fi network inventory, RSSI-plotted dots, editable floor plan
