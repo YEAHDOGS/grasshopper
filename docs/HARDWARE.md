@@ -11,6 +11,33 @@ hours on its own cell — the phone is an optional display, not a requirement.
 Snap it onto your phone over USB-C and it can sip phone power instead of its
 own battery, running indefinitely.
 
+## Two modes
+
+### Mode 1 — Sweep (metal-detector style)
+
+Point-and-sweep RF proximity. The front-end reports per-band received power;
+the ESP32-S3 drives a **piezo beeper + ERM vibration motor** with
+Geiger-counter feedback — faster beeps and a stronger buzz as you close in.
+The directional whip gives bearing. No screen, no graphs, no waterfall.
+
+### Mode 2 — Map (your house as a diagram)
+
+Grasshopper joins the home Wi-Fi as a client and inventories the network:
+ARP/DHCP sweep, mDNS/Bonjour + UPnP names (so "Living Room TV" labels
+itself), BLE advertisements, and per-device RSSI. The companion app holds an
+editable floor plan — swap floors, drag rooms, rename them — and plots each
+device as a dot positioned by RSSI multilateration (room-level accuracy),
+pulsing red when a device is unknown or new. Walk-the-house calibration:
+carry Grasshopper room to room once and the dots sharpen.
+
+**Honest limits:** Wi-Fi alone cannot auto-draw an architect-accurate floor
+plan — the plan starts as your quick sketch (or a room list) and Grasshopper
+fills it with dots. Person-tracking through walls via Wi-Fi channel-state
+(CSI) sensing is real published research and sits on the roadmap, not in
+Rev A. Wired, shielded, powered-off, or purely local-recording devices emit
+nothing detectable — no RF sweeper can find those. See
+docs/DETECTION-MATRIX.md.
+
 ```
                          ┌──────────────────────────┐
                          │   MULTIBAND ANTENNAS     │
@@ -27,6 +54,7 @@ own battery, running indefinitely.
                          ┌────────────▼─────────────┐
                          │   ESP32-S3 (DSP/host)    │
                          │ signal detect + classify │
+                         │ beeper + haptic driver   │
                          └────────────┬─────────────┘
                                       │
                     ┌─────────────────┴──────────────────┐
@@ -83,10 +111,13 @@ own battery, running indefinitely.
 | 11 | 4-layer PCB, ENIG | Main board | JLCPCB / PCBWay |
 | 12 | PC/ABS clamshell + phone clip | Enclosure | Injection mold (TBD) |
 | 13 | 15 cm USB-C extension cable | Cased-phone accessory | Off-the-shelf |
+| 14 | Piezo buzzer, 3 V | Sweep-mode audio feedback | LCSC / CUI via Digi-Key |
+| 15 | ERM coin vibration motor, 3 V | Sweep-mode haptic feedback | LCSC / Jinlong |
 
-**Cost envelope:** RF + silicon ≈ $38–55 at 1k units; battery + power ≈
-$6–9; enclosure + cable ≈ $9–14; assembly/test ≈ $12–18. Total COGS target
-**$75–95**, leaving healthy margin at the $299 / $399 retail targets.
+**Cost envelope:** RF + silicon ≈ $38–55 at 1k units; battery + power +
+haptics ≈ $7–10; enclosure + cable ≈ $9–14; assembly/test ≈ $12–18. Total
+COGS target **$75–95**, leaving healthy margin at the $299 / $399 retail
+targets.
 
 **Pro tier delta:** adds a 5 GHz Wi-Fi radio module (dedicated scan radio)
 and extended-band SDR coverage for 2.1 / 2.6 / 3.5 GHz cellular — the two
